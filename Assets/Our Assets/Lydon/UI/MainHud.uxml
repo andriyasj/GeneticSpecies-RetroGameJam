@@ -5,7 +5,7 @@
                 <ui:VisualElement style="flex-grow: 1; height: 70%; position: relative; top: 0; left: auto; width: 100%; max-height: 70%; align-self: flex-start; align-items: flex-start; justify-content: flex-end;">
                     <ui:VisualElement name="HealthMask" style="flex-grow: 1; left: 0; align-items: flex-start; align-self: center; justify-content: flex-start; width: 15%; overflow: hidden; height: 100%; position: absolute;" />
                 </ui:VisualElement>
-                <ui:Label text="123" enable-rich-text="true" name="AmmoCounter" style="font-size: 150%; -unity-text-align: middle-center; height: 30%; -unity-font-definition: url(&quot;project://database/Assets/UI/80s-retro-future.ttf?fileID=12800000&amp;guid=b0b1524783d1edd43a8e635eeae44782&amp;type=3#80s-retro-future&quot;); padding-right: 0%; padding-left: 0%; margin-left: 0%; margin-top: 0%; margin-right: 0%; margin-bottom: 0%; padding-top: 0%; padding-bottom: 0%;" />
+                <ui:Label text="123" enable-rich-text="true" name="AmmoCounter" style="font-size: 150%; -unity-text-align: middle-center; height: 30%; -unity-font-definition: url(&quot;project://database/Assets/Our%20Assets/Lydon/UI/Fonts/80s-retro-future.ttf?fileID=12800000&amp;guid=b0b1524783d1edd43a8e635eeae44782&amp;type=3#80s-retro-future&quot;); padding-right: 0%; padding-left: 0%; margin-left: 0%; margin-top: 0%; margin-right: 0%; margin-bottom: 0%; padding-top: 0%; padding-bottom: 0%; color: rgb(255, 255, 255);" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
