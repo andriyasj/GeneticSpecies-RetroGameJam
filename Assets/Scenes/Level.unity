@@ -389,10 +389,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingBot
       objectReference: {fileID: 0}
-    - target: {fileID: 2568520656970291003, guid: 16bbcda6e788e9543a36b97910350e42, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.002872764
-      objectReference: {fileID: 0}
     - target: {fileID: 6939162458936021499, guid: 16bbcda6e788e9543a36b97910350e42, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
