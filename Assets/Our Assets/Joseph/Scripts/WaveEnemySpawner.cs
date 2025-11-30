@@ -7,6 +7,7 @@ public class WaveEnemySpawner : MonoBehaviour
 {
     [Header("Enemy Settings")]
     [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameObject miniBossPrefab; // NEW: Miniboss prefab
     
     [Header("Spawn Points")]
     [SerializeField] private Transform[] allSpawnPoints;
@@ -16,14 +17,20 @@ public class WaveEnemySpawner : MonoBehaviour
     [SerializeField] private Transform player;
     
     [Header("Initial Wave Settings")]
-    [SerializeField] private int initialEnemyCount = 5; // First wave enemy count
+    [SerializeField] private int initialEnemyCount = 5;
     [SerializeField] private float initialTimeBetweenSpawns = 1f;
     [SerializeField] private float initialTimeToNextWave = 10f;
     
     [Header("Base Wave Settings (After Wave 1)")]
-    [SerializeField] private int baseEnemyCount = 10; // Starting number for wave 2+
+    [SerializeField] private int baseEnemyCount = 10;
     [SerializeField] private float baseTimeBetweenSpawns = 0.8f;
     [SerializeField] private float baseTimeToNextWave = 8f;
+    
+    [Header("Miniboss Wave Settings")]
+    [SerializeField] private int miniBossWaveInterval = 3; // Miniboss wave every 3 waves
+    [SerializeField] private int miniBossCount = 3; // Number of minibosses to spawn
+    [SerializeField] private float miniBossTimeBetweenSpawns = 2f;
+    [SerializeField] private float miniBossWaveDelay = 15f; // Longer delay after miniboss wave
     
     [Header("Difficulty Scaling")]
     [SerializeField] private float enemyCountMultiplier = 1.2f;
@@ -37,6 +44,8 @@ public class WaveEnemySpawner : MonoBehaviour
     [SerializeField] private bool scaleEnemyStats = true;
     [SerializeField] private float healthScalingPerWave = 1.15f;
     [SerializeField] private float damageScalingPerWave = 1.1f;
+    [SerializeField] private float miniBossHealthMultiplier = 3f; // Minibosses have 3x health
+    [SerializeField] private float miniBossDamageMultiplier = 1.5f; // Minibosses deal 1.5x damage
     
     [Header("Debug")]
     [SerializeField] private bool showDebugLogs = true;
@@ -47,6 +56,7 @@ public class WaveEnemySpawner : MonoBehaviour
     private Transform[] activeSpawnPoints;
     private bool isSpawning = false;
     private bool waitingForNextWave = false;
+    private bool isMiniBossWave = false; // NEW: Track if current wave is miniboss wave
     
     private int currentEnemyCount;
     private float currentTimeBetweenSpawns;
@@ -59,13 +69,11 @@ public class WaveEnemySpawner : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player")?.transform;
         }
         
-        // Start the first wave immediately
         StartWave();
     }
 
     void Update()
     {
-        // Check if wave is complete and not already waiting
         if (!isSpawning && enemiesAlive == 0 && !waitingForNextWave)
         {
             waitingForNextWave = true;
@@ -75,10 +83,14 @@ public class WaveEnemySpawner : MonoBehaviour
 
     private void StartWave()
     {
+        // Check if this should be a miniboss wave
+        isMiniBossWave = (currentWaveNumber % miniBossWaveInterval == 0);
+        
         // Calculate wave difficulty
         CalculateWaveDifficulty();
         UIManager.Instance.SetEnemyCount(currentEnemyCount);
         UIManager.Instance.SetWaveCount(currentWaveNumber);
+        
         // Calculate closest spawn points to player
         activeSpawnPoints = GetClosestSpawnPoints(player.position, spawnPointsPerWave);
         
@@ -86,15 +98,35 @@ public class WaveEnemySpawner : MonoBehaviour
         
         if (showDebugLogs)
         {
-            Debug.Log($"<color=cyan>=== WAVE {currentWaveNumber} STARTING ===</color>");
-            Debug.Log($"Spawning {currentEnemyCount} enemies at {currentTimeBetweenSpawns:F2}s intervals");
+            if (isMiniBossWave)
+            {
+                Debug.Log($"<color=red>╔═══════════════════════════════════╗</color>");
+                Debug.Log($"<color=red>║  MINIBOSS WAVE {currentWaveNumber} - {currentEnemyCount} MINIBOSSES! ║</color>");
+                Debug.Log($"<color=red>╚═══════════════════════════════════╝</color>");
+            }
+            else
+            {
+                Debug.Log($"<color=cyan>=== WAVE {currentWaveNumber} STARTING ===</color>");
+                Debug.Log($"Spawning {currentEnemyCount} enemies at {currentTimeBetweenSpawns:F2}s intervals");
+            }
+            
             Debug.Log($"Using {activeSpawnPoints.Length} closest spawn points to player");
             
             if (scaleEnemyStats && currentWaveNumber > 1)
             {
                 float healthMult = Mathf.Pow(healthScalingPerWave, currentWaveNumber - 1);
                 float damageMult = Mathf.Pow(damageScalingPerWave, currentWaveNumber - 1);
-                Debug.Log($"Enemy Stats Multiplier - Health: x{healthMult:F2} | Damage: x{damageMult:F2}");
+                
+                if (isMiniBossWave)
+                {
+                    healthMult *= miniBossHealthMultiplier;
+                    damageMult *= miniBossDamageMultiplier;
+                    Debug.Log($"<color=orange>MINIBOSS Stats - Health: x{healthMult:F2} | Damage: x{damageMult:F2}</color>");
+                }
+                else
+                {
+                    Debug.Log($"Enemy Stats Multiplier - Health: x{healthMult:F2} | Damage: x{damageMult:F2}");
+                }
             }
         }
         
@@ -103,7 +135,16 @@ public class WaveEnemySpawner : MonoBehaviour
 
     private void CalculateWaveDifficulty()
     {
-        // Special handling for Wave 1 (initial wave)
+        // MINIBOSS WAVE: Fixed count and timing
+        if (isMiniBossWave)
+        {
+            currentEnemyCount = miniBossCount;
+            currentTimeBetweenSpawns = miniBossTimeBetweenSpawns;
+            currentTimeToNextWave = miniBossWaveDelay;
+            return;
+        }
+        
+        // REGULAR WAVE 1: Initial settings
         if (currentWaveNumber == 1)
         {
             currentEnemyCount = initialEnemyCount;
@@ -112,21 +153,22 @@ public class WaveEnemySpawner : MonoBehaviour
             return;
         }
         
-        // For waves 2+, use progressive scaling
-        int waveOffset = currentWaveNumber - 2; // Wave 2 = 0, Wave 3 = 1, etc.
+        // REGULAR WAVES 2+: Progressive scaling
+        // Calculate how many regular waves have passed (excluding miniboss waves)
+        int regularWavesPassed = currentWaveNumber - (currentWaveNumber / miniBossWaveInterval) - 1;
         
         currentEnemyCount = Mathf.RoundToInt(
-            baseEnemyCount * Mathf.Pow(enemyCountMultiplier, waveOffset) + 
-            (enemyCountAdditive * waveOffset)
+            baseEnemyCount * Mathf.Pow(enemyCountMultiplier, regularWavesPassed) + 
+            (enemyCountAdditive * regularWavesPassed)
         );
         
         currentTimeBetweenSpawns = Mathf.Max(
-            baseTimeBetweenSpawns * Mathf.Pow(spawnRateIncrease, waveOffset),
+            baseTimeBetweenSpawns * Mathf.Pow(spawnRateIncrease, regularWavesPassed),
             minTimeBetweenSpawns
         );
         
         currentTimeToNextWave = Mathf.Max(
-            baseTimeToNextWave * Mathf.Pow(waveDelayDecrease, waveOffset),
+            baseTimeToNextWave * Mathf.Pow(waveDelayDecrease, regularWavesPassed),
             minTimeToNextWave
         );
     }
@@ -157,7 +199,7 @@ public class WaveEnemySpawner : MonoBehaviour
             SpawnEnemy();
             enemiesLeftToSpawn--;
             
-            if (enemiesLeftToSpawn > 0) // Don't wait after last enemy
+            if (enemiesLeftToSpawn > 0)
             {
                 yield return new WaitForSeconds(currentTimeBetweenSpawns);
             }
@@ -167,7 +209,14 @@ public class WaveEnemySpawner : MonoBehaviour
         
         if (showDebugLogs)
         {
-            Debug.Log($"<color=yellow>Wave {currentWaveNumber} - All enemies spawned! Waiting for player to clear them...</color>");
+            if (isMiniBossWave)
+            {
+                Debug.Log($"<color=orange>All {miniBossCount} Minibosses spawned! Defeat them to continue...</color>");
+            }
+            else
+            {
+                Debug.Log($"<color=yellow>Wave {currentWaveNumber} - All enemies spawned! Waiting for player to clear them...</color>");
+            }
         }
     }
 
@@ -177,7 +226,16 @@ public class WaveEnemySpawner : MonoBehaviour
         
         Transform spawnPoint = activeSpawnPoints[Random.Range(0, activeSpawnPoints.Length)];
         
-        GameObject newEnemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        // Choose which prefab to spawn based on wave type
+        GameObject prefabToSpawn = isMiniBossWave ? miniBossPrefab : enemyPrefab;
+        
+        if (prefabToSpawn == null)
+        {
+            Debug.LogError(isMiniBossWave ? "MiniBoss prefab not assigned!" : "Enemy prefab not assigned!");
+            return;
+        }
+        
+        GameObject newEnemy = Instantiate(prefabToSpawn, spawnPoint.position, spawnPoint.rotation);
         enemiesAlive++;
         
         // Scale enemy stats
@@ -202,6 +260,13 @@ public class WaveEnemySpawner : MonoBehaviour
         float healthMultiplier = Mathf.Pow(healthScalingPerWave, currentWaveNumber - 1);
         float damageMultiplier = Mathf.Pow(damageScalingPerWave, currentWaveNumber - 1);
         
+        // Apply extra multipliers for minibosses
+        if (isMiniBossWave)
+        {
+            healthMultiplier *= miniBossHealthMultiplier;
+            damageMultiplier *= miniBossDamageMultiplier;
+        }
+        
         enemyAI.ScaleHealth(healthMultiplier);
         enemyAI.ScaleDamage(damageMultiplier);
     }
@@ -210,17 +275,31 @@ public class WaveEnemySpawner : MonoBehaviour
     {
         enemiesAlive--;
         UIManager.Instance.SetEnemyCount(enemiesAlive);
+        
         if (showDebugLogs)
         {
-            Debug.Log($"<color=red>Enemy killed!</color> Remaining: {enemiesAlive}");
+            if (isMiniBossWave)
+            {
+                Debug.Log($"<color=orange>Miniboss defeated!</color> Remaining: {enemiesAlive}");
+            }
+            else
+            {
+                Debug.Log($"<color=red>Enemy killed!</color> Remaining: {enemiesAlive}");
+            }
         }
         
-        // Check if all enemies are dead
         if (enemiesAlive == 0 && !isSpawning)
         {
             if (showDebugLogs)
             {
-                Debug.Log($"<color=green>WAVE {currentWaveNumber} COMPLETE!</color>");
+                if (isMiniBossWave)
+                {
+                    Debug.Log($"<color=green>★★★ MINIBOSS WAVE {currentWaveNumber} COMPLETE! ★★★</color>");
+                }
+                else
+                {
+                    Debug.Log($"<color=green>WAVE {currentWaveNumber} COMPLETE!</color>");
+                }
             }
         }
     }
@@ -261,6 +340,11 @@ public class WaveEnemySpawner : MonoBehaviour
         return isSpawning || enemiesAlive > 0;
     }
 
+    public bool IsMiniBossWave()
+    {
+        return isMiniBossWave;
+    }
+
     private void OnDrawGizmos()
     {
         if (allSpawnPoints == null || player == null) return;
@@ -276,7 +360,8 @@ public class WaveEnemySpawner : MonoBehaviour
         
         if (Application.isPlaying && activeSpawnPoints != null)
         {
-            Gizmos.color = Color.green;
+            // Change color for miniboss waves
+            Gizmos.color = isMiniBossWave ? Color.red : Color.green;
             foreach (Transform spawn in activeSpawnPoints)
             {
                 if (spawn != null)
