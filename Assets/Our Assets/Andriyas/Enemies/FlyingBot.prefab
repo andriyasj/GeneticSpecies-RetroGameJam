@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6939162458936021499}
   - component: {fileID: 8237599267268654081}
   - component: {fileID: 8308467525560189443}
-  - component: {fileID: 5811639113998797756}
   - component: {fileID: 672579243750549934}
   m_Layer: 7
   m_Name: FlyingBot
@@ -29,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 439758283911719150}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -94,31 +93,6 @@ MonoBehaviour:
   destinationUpdateInterval: 0.5
   detectionRadius: 30
   fieldOfView: 120
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
---- !u!114 &5811639113998797756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 439758283911719150}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1eedfbc68f0dcc948a6828ce51f5222a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  animator: {fileID: 2709349995993309630}
-  firePoint: {fileID: 4136364407615065880}
-  bulletPrefab: {fileID: 1239156983776194, guid: 3dd065ece245c1f47a2b12600feb4813, type: 3}
-  shootingRange: 10
-  fireRate: 1
-  damage: 10
-  chaseSpeed: 5
-  destinationUpdateInterval: 0.5
-  fieldOfView: 90
   obstacleMask:
     serializedVersion: 2
     m_Bits: 0

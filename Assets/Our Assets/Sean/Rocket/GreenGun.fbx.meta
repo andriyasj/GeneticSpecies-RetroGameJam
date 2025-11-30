@@ -1,9 +1,34 @@
 fileFormatVersion: 2
-guid: b42e5ae1378c6724193ca2b88271be43
+guid: 519b547438a33284a8402bf21ffbfa3a
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Corrugated Steel.006
+    second: {fileID: 2100000, guid: f00cc9a1a79230c4e8d5657ae1288cac, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light iron.001
+    second: {fileID: 2100000, guid: 5921ff9a5b1f8e541b54f4c5a720fa9e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light iron.002
+    second: {fileID: 2100000, guid: ebad7c9345130cc4c88900984d8cfcb1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: 0887e398f28ea9f408ab6c3b817d6b5e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.009
+    second: {fileID: 2100000, guid: df2ca32153e6a5640a2a7027a1a74f28, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -45,7 +70,7 @@ ModelImporter:
     importLights: 1
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
-    swapUVChannels: 0
+    swapUVChannels: 1
     generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0

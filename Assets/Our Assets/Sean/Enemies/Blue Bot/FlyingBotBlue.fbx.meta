@@ -1,9 +1,59 @@
 fileFormatVersion: 2
-guid: 8c7eb7692f973834cb8039810edbab57
+guid: 004b4a398638ec14d93309d568c1fd5e
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Decorative plastic
+    second: {fileID: 2100000, guid: 71425c39bb4aea24c86f4c1a9b2cb521, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edge Wear Peeled Metal (Black Metal)
+    second: {fileID: 2100000, guid: 91a4aa93e3ed6ee4ebb25f5a89905da3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: 4efc32a092702e34ab29ddd73dca21e3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.007
+    second: {fileID: 2100000, guid: f682527ed57ae44449b8aad20a3c1f0d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.013
+    second: {fileID: 2100000, guid: 3018e7415ecd80a45b0f85143bcc9fa0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.014
+    second: {fileID: 2100000, guid: 31cac9654b277d943835ac0f9fcacf81, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.015
+    second: {fileID: 2100000, guid: b386b0337295ba349a35314d0427e2dc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.016
+    second: {fileID: 2100000, guid: 056fbf04af0f8a24c8082098875fc4a6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.017
+    second: {fileID: 2100000, guid: 797806b9fc7aa0b4780a313cc85f2f43, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Yellow painted metal
+    second: {fileID: 2100000, guid: 07d0e7bd2bcf85d46943fd1ae43eaf4a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
