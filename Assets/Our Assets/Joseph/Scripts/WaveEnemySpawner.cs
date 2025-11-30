@@ -77,7 +77,8 @@ public class WaveEnemySpawner : MonoBehaviour
     {
         // Calculate wave difficulty
         CalculateWaveDifficulty();
-        
+        UIManager.Instance.SetEnemyCount(currentEnemyCount);
+        UIManager.Instance.SetWaveCount(currentWaveNumber);
         // Calculate closest spawn points to player
         activeSpawnPoints = GetClosestSpawnPoints(player.position, spawnPointsPerWave);
         
@@ -208,7 +209,7 @@ public class WaveEnemySpawner : MonoBehaviour
     private void OnEnemyKilled()
     {
         enemiesAlive--;
-        
+        UIManager.Instance.SetEnemyCount(enemiesAlive);
         if (showDebugLogs)
         {
             Debug.Log($"<color=red>Enemy killed!</color> Remaining: {enemiesAlive}");
@@ -234,6 +235,7 @@ public class WaveEnemySpawner : MonoBehaviour
         yield return new WaitForSeconds(currentTimeToNextWave);
         
         currentWaveNumber++;
+        UIManager.Instance.SetWaveCount(currentWaveNumber);
         waitingForNextWave = false;
         StartWave();
     }

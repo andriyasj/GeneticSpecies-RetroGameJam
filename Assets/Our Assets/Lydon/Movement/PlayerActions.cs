@@ -15,6 +15,7 @@ public class PlayerActions : MonoBehaviour
     public void TakeDamage(int damage)
     {
         StatManager.instance.Health -= damage;
+        if (StatManager.instance.Health <= 0) KillPlayer();
     }
     public void HealPlayer(int healAmount)
     {

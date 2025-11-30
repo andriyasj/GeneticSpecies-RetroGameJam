@@ -11,7 +11,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void Attack()
     {
-        if (Time.time >= nextFireTime)
+        if (StatManager.instance.ammo > 0 && Time.time >= nextFireTime)
         {
             Shoot();
             nextFireTime = Time.time + fireRate;
@@ -27,5 +27,6 @@ public class PlayerAttack : MonoBehaviour
         }
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        StatManager.instance.Ammo--;
     }
 }

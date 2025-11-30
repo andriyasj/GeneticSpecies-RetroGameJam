@@ -8,23 +8,25 @@ public class StatManager : MonoBehaviour
     public float cameraSensitivity; // Slider 0.1 - 1
 
     [Header("Player Stats")]
-    private int health = 100;
+    [SerializeField] public int maxHealth = 100;
+    [SerializeField] public int health = 100;
     public int Health
     {
         get => health;
         set
         {
-            UIManager.Instance.SetHealth(health/100); //health is currently a 0-1 value not clamped
+            health = Mathf.Clamp(value, 0, maxHealth);
+            UIManager.Instance.SetHealth((float)health / maxHealth);
         }
     }
-    [SerializeField] private int ammo = 10; 
+    [SerializeField] public int ammo = 10; 
 
     public int Ammo
     {
         get => ammo;
         set
         {
-            ammo = value;
+            ammo = Mathf.Max(0, value); // Prevent negative ammo
             UIManager.Instance.SetAmmo(ammo);
         }
     }
