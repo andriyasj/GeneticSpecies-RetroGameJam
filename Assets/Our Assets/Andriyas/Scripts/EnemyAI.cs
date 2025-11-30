@@ -32,6 +32,7 @@ public class EnemyAI : MonoBehaviour
     private int currentHealth;
     private bool isAlive = true;
     private bool inShootingState;
+    private int currentDamage;
 
     // Cached vectors to reduce allocations
     private Vector3 cachedDirection;
@@ -258,5 +259,17 @@ public class EnemyAI : MonoBehaviour
             Gizmos.DrawLine(transform.position, transform.position + right);
             Gizmos.DrawLine(transform.position + left, transform.position + right);
         }
+    }
+    
+    public void ScaleHealth(float multiplier)
+    {
+        currentHealth = Mathf.RoundToInt(maxHealth * multiplier);
+        Debug.Log($"Enemy health scaled to: {currentHealth} (x{multiplier:F2})");
+    }
+
+    public void ScaleDamage(float multiplier)
+    {
+        currentDamage = Mathf.RoundToInt(damage * multiplier);
+        Debug.Log($"Enemy damage scaled to: {currentDamage} (x{multiplier:F2})");
     }
 }

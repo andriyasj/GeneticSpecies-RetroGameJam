@@ -3,78 +3,131 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
-public class Wave
-{
-    public int enemyCount;
-    public float timeBetweenSpawns = 1f;
-    public float timeToNextWave = 5f;
-}
-
 public class WaveEnemySpawner : MonoBehaviour
 {
-    [Header("Wave Settings")]
-    [SerializeField] private Wave[] waves;
+    [Header("Enemy Settings")]
     [SerializeField] private GameObject enemyPrefab;
     
     [Header("Spawn Points")]
-    [SerializeField] private Transform[] allSpawnPoints; // All red spawn locations
-    [SerializeField] private int spawnPointsPerWave = 3; // Number of closest spawns to use
+    [SerializeField] private Transform[] allSpawnPoints;
+    [SerializeField] private int spawnPointsPerWave = 3;
     
     [Header("Player Reference")]
     [SerializeField] private Transform player;
     
-    private int currentWaveIndex = 0;
+    [Header("Initial Wave Settings")]
+    [SerializeField] private int initialEnemyCount = 5; // First wave enemy count
+    [SerializeField] private float initialTimeBetweenSpawns = 1f;
+    [SerializeField] private float initialTimeToNextWave = 10f;
+    
+    [Header("Base Wave Settings (After Wave 1)")]
+    [SerializeField] private int baseEnemyCount = 10; // Starting number for wave 2+
+    [SerializeField] private float baseTimeBetweenSpawns = 0.8f;
+    [SerializeField] private float baseTimeToNextWave = 8f;
+    
+    [Header("Difficulty Scaling")]
+    [SerializeField] private float enemyCountMultiplier = 1.2f;
+    [SerializeField] private int enemyCountAdditive = 5;
+    [SerializeField] private float spawnRateIncrease = 1f;
+    [SerializeField] private float minTimeBetweenSpawns = 0.2f;
+    [SerializeField] private float waveDelayDecrease = 0.95f;
+    [SerializeField] private float minTimeToNextWave = 3f;
+    
+    [Header("Enemy Health/Damage Scaling")]
+    [SerializeField] private bool scaleEnemyStats = true;
+    [SerializeField] private float healthScalingPerWave = 1.15f;
+    [SerializeField] private float damageScalingPerWave = 1.1f;
+    
+    [Header("Debug")]
+    [SerializeField] private bool showDebugLogs = true;
+    
+    private int currentWaveNumber = 1;
     private int enemiesLeftToSpawn = 0;
     private int enemiesAlive = 0;
-    private Transform[] activeSpawnPoints; // The 3 closest spawns for current wave
+    private Transform[] activeSpawnPoints;
     private bool isSpawning = false;
+    private bool waitingForNextWave = false;
+    
+    private int currentEnemyCount;
+    private float currentTimeBetweenSpawns;
+    private float currentTimeToNextWave;
 
     void Start()
     {
-        // Find player if not assigned
         if (player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player")?.transform;
         }
         
+        // Start the first wave immediately
         StartWave();
     }
 
     void Update()
     {
-        // Check if wave is complete
-        if (!isSpawning && enemiesAlive == 0 && currentWaveIndex < waves.Length)
+        // Check if wave is complete and not already waiting
+        if (!isSpawning && enemiesAlive == 0 && !waitingForNextWave)
         {
+            waitingForNextWave = true;
             StartCoroutine(StartNextWaveAfterDelay());
         }
     }
 
     private void StartWave()
     {
-        if (currentWaveIndex >= waves.Length)
+        // Calculate wave difficulty
+        CalculateWaveDifficulty();
+        
+        // Calculate closest spawn points to player
+        activeSpawnPoints = GetClosestSpawnPoints(player.position, spawnPointsPerWave);
+        
+        enemiesLeftToSpawn = currentEnemyCount;
+        
+        if (showDebugLogs)
         {
-            Debug.Log("All waves completed!");
+            Debug.Log($"<color=cyan>=== WAVE {currentWaveNumber} STARTING ===</color>");
+            Debug.Log($"Spawning {currentEnemyCount} enemies at {currentTimeBetweenSpawns:F2}s intervals");
+            Debug.Log($"Using {activeSpawnPoints.Length} closest spawn points to player");
+            
+            if (scaleEnemyStats && currentWaveNumber > 1)
+            {
+                float healthMult = Mathf.Pow(healthScalingPerWave, currentWaveNumber - 1);
+                float damageMult = Mathf.Pow(damageScalingPerWave, currentWaveNumber - 1);
+                Debug.Log($"Enemy Stats Multiplier - Health: x{healthMult:F2} | Damage: x{damageMult:F2}");
+            }
+        }
+        
+        StartCoroutine(SpawnWave());
+    }
+
+    private void CalculateWaveDifficulty()
+    {
+        // Special handling for Wave 1 (initial wave)
+        if (currentWaveNumber == 1)
+        {
+            currentEnemyCount = initialEnemyCount;
+            currentTimeBetweenSpawns = initialTimeBetweenSpawns;
+            currentTimeToNextWave = initialTimeToNextWave;
             return;
         }
         
-        // Calculate closest 3 spawn points to player
-        activeSpawnPoints = GetClosestSpawnPoints(player.position, spawnPointsPerWave);
+        // For waves 2+, use progressive scaling
+        int waveOffset = currentWaveNumber - 2; // Wave 2 = 0, Wave 3 = 1, etc.
         
-        // Set up wave
-        Wave currentWave = waves[currentWaveIndex];
-        enemiesLeftToSpawn = currentWave.enemyCount;
+        currentEnemyCount = Mathf.RoundToInt(
+            baseEnemyCount * Mathf.Pow(enemyCountMultiplier, waveOffset) + 
+            (enemyCountAdditive * waveOffset)
+        );
         
-        Debug.Log($"Starting Wave {currentWaveIndex + 1} - Spawning {enemiesLeftToSpawn} enemies from {activeSpawnPoints.Length} closest spawn points");
+        currentTimeBetweenSpawns = Mathf.Max(
+            baseTimeBetweenSpawns * Mathf.Pow(spawnRateIncrease, waveOffset),
+            minTimeBetweenSpawns
+        );
         
-        // Log which spawn points are being used
-        for (int i = 0; i < activeSpawnPoints.Length; i++)
-        {
-            float distance = Vector3.Distance(player.position, activeSpawnPoints[i].position);
-            Debug.Log($"Spawn Point {i + 1}: Distance = {distance:F2} units");
-        }
-        
-        StartCoroutine(SpawnWave(currentWave));
+        currentTimeToNextWave = Mathf.Max(
+            baseTimeToNextWave * Mathf.Pow(waveDelayDecrease, waveOffset),
+            minTimeToNextWave
+        );
     }
 
     private Transform[] GetClosestSpawnPoints(Vector3 targetPosition, int count)
@@ -85,17 +138,16 @@ public class WaveEnemySpawner : MonoBehaviour
             return new Transform[0];
         }
         
-        // Use LINQ to sort spawn points by distance and take the closest ones
         Transform[] closestPoints = allSpawnPoints
-            .Where(sp => sp != null) // Filter out any null references
-            .OrderBy(sp => (sp.position - targetPosition).sqrMagnitude) // Sort by squared distance (more efficient)
-            .Take(count) // Take only the number we need
+            .Where(sp => sp != null)
+            .OrderBy(sp => (sp.position - targetPosition).sqrMagnitude)
+            .Take(count)
             .ToArray();
         
         return closestPoints;
     }
 
-    private IEnumerator SpawnWave(Wave wave)
+    private IEnumerator SpawnWave()
     {
         isSpawning = true;
         
@@ -103,22 +155,35 @@ public class WaveEnemySpawner : MonoBehaviour
         {
             SpawnEnemy();
             enemiesLeftToSpawn--;
-            yield return new WaitForSeconds(wave.timeBetweenSpawns);
+            
+            if (enemiesLeftToSpawn > 0) // Don't wait after last enemy
+            {
+                yield return new WaitForSeconds(currentTimeBetweenSpawns);
+            }
         }
         
         isSpawning = false;
+        
+        if (showDebugLogs)
+        {
+            Debug.Log($"<color=yellow>Wave {currentWaveNumber} - All enemies spawned! Waiting for player to clear them...</color>");
+        }
     }
 
     private void SpawnEnemy()
     {
         if (activeSpawnPoints.Length == 0) return;
         
-        // Pick random spawn from the 3 closest points
         Transform spawnPoint = activeSpawnPoints[Random.Range(0, activeSpawnPoints.Length)];
         
-        // Instantiate enemy
         GameObject newEnemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
         enemiesAlive++;
+        
+        // Scale enemy stats
+        if (scaleEnemyStats)
+        {
+            ScaleEnemyStats(newEnemy);
+        }
         
         // Subscribe to enemy death
         EnemyAI enemyAI = newEnemy.GetComponent<EnemyAI>();
@@ -128,35 +193,76 @@ public class WaveEnemySpawner : MonoBehaviour
         }
     }
 
+    private void ScaleEnemyStats(GameObject enemy)
+    {
+        EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
+        if (enemyAI == null) return;
+        
+        float healthMultiplier = Mathf.Pow(healthScalingPerWave, currentWaveNumber - 1);
+        float damageMultiplier = Mathf.Pow(damageScalingPerWave, currentWaveNumber - 1);
+        
+        enemyAI.ScaleHealth(healthMultiplier);
+        enemyAI.ScaleDamage(damageMultiplier);
+    }
+
     private void OnEnemyKilled()
     {
         enemiesAlive--;
-        Debug.Log($"Enemy killed. Enemies remaining: {enemiesAlive}");
+        
+        if (showDebugLogs)
+        {
+            Debug.Log($"<color=red>Enemy killed!</color> Remaining: {enemiesAlive}");
+        }
+        
+        // Check if all enemies are dead
+        if (enemiesAlive == 0 && !isSpawning)
+        {
+            if (showDebugLogs)
+            {
+                Debug.Log($"<color=green>WAVE {currentWaveNumber} COMPLETE!</color>");
+            }
+        }
     }
 
     private IEnumerator StartNextWaveAfterDelay()
     {
-        if (currentWaveIndex >= waves.Length - 1)
+        if (showDebugLogs)
         {
-            Debug.Log("All waves completed!");
-            yield break;
+            Debug.Log($"<color=cyan>Prepare for Wave {currentWaveNumber + 1} in {currentTimeToNextWave:F1} seconds...</color>");
         }
         
-        float delay = waves[currentWaveIndex].timeToNextWave;
-        Debug.Log($"Next wave in {delay} seconds...");
+        yield return new WaitForSeconds(currentTimeToNextWave);
         
-        yield return new WaitForSeconds(delay);
-        
-        currentWaveIndex++;
-        StartWave(); // This will recalculate closest spawn points
+        currentWaveNumber++;
+        waitingForNextWave = false;
+        StartWave();
     }
 
-    // Optional: Visualize spawn points in editor
+    // Public methods for UI
+    public int GetCurrentWave()
+    {
+        return currentWaveNumber;
+    }
+
+    public int GetEnemiesAlive()
+    {
+        return enemiesAlive;
+    }
+
+    public int GetEnemiesSpawned()
+    {
+        return currentEnemyCount - enemiesLeftToSpawn;
+    }
+
+    public bool IsWaveActive()
+    {
+        return isSpawning || enemiesAlive > 0;
+    }
+
     private void OnDrawGizmos()
     {
         if (allSpawnPoints == null || player == null) return;
         
-        // Draw all spawn points in yellow
         Gizmos.color = Color.yellow;
         foreach (Transform spawn in allSpawnPoints)
         {
@@ -166,7 +272,6 @@ public class WaveEnemySpawner : MonoBehaviour
             }
         }
         
-        // Draw active spawn points in green during play mode
         if (Application.isPlaying && activeSpawnPoints != null)
         {
             Gizmos.color = Color.green;
