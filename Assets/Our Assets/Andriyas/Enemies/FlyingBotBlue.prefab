@@ -185,13 +185,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 505150003222099899}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7069821, y: 0.0014155806, z: -0.0014150442, w: -0.7072286}
+  m_LocalRotation: {x: 0.7064333, y: 0.027874442, z: -0.02790177, w: -0.70668}
   m_LocalPosition: {x: 0.00001, y: 0.0037, z: 0.00034}
   m_LocalScale: {x: 0.010000001, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7425855010073886337}
-  m_LocalEulerAnglesHint: {x: -90.23, y: 94.979, z: -94.979004}
+  m_LocalEulerAnglesHint: {x: -94.521, y: 90.255, z: -90.252014}
 --- !u!1 &669025101238667352
 GameObject:
   m_ObjectHideFlags: 0
@@ -1433,7 +1433,7 @@ GameObject:
   - component: {fileID: 7212250978416575463}
   m_Layer: 0
   m_Name: FlyingBotBlue
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -19,12 +19,6 @@ public class Bullet : MonoBehaviour
             EnemyAI enemy = other.GetComponent<EnemyAI>();
             enemy.TakeDamage(damage);
         }
-        if (other.tag == "Player")
-        {
-            print("Player Hit");
-            PlayerActions player = other.GetComponent<PlayerActions>();
-            player.TakeDamage(damage);
-        }
     }
 
     private IEnumerator DestroySelf()

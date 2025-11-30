@@ -1,12 +1,13 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerActions : MonoBehaviour
 {
     void KillPlayer()
     {
-        Destroy(gameObject);
+        SceneManager.LoadScene(0);
     }
     public void GetAmmo(int ammo)
     {
