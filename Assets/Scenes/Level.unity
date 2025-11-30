@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &17971454 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7002444854643246606, guid: d7bc7bc3054e4ff4f829471605d711ad, type: 3}
+  m_PrefabInstance: {fileID: 1542262806}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &68345617
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,8 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7900c83a29732b34096956a2849eab06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 439758283911719150, guid: 16bbcda6e788e9543a36b97910350e42, type: 3}
-  miniBossPrefab: {fileID: 0}
+  enemyPrefab: {fileID: 5867101838787659391, guid: 29cb6c3d00a608649b411683b6f4e877, type: 3}
+  miniBossPrefab: {fileID: 439758283911719150, guid: 16bbcda6e788e9543a36b97910350e42, type: 3}
   allSpawnPoints:
   - {fileID: 1061913743}
   - {fileID: 2104147769}
@@ -325,6 +330,11 @@ BoxCollider:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3430963947930118398, guid: 465b97aa2195a99479afa129f0163b30, type: 3}
   m_PrefabInstance: {fileID: 1416558019}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &257126561 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7524987340406703824, guid: d7bc7bc3054e4ff4f829471605d711ad, type: 3}
+  m_PrefabInstance: {fileID: 1542262806}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &332877761
 PrefabInstance:
@@ -588,6 +598,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.0000088, y: 2.0001235, z: 2.0153987}
   m_Center: {x: 0.0000051528764, y: -0.0000371933, z: -0.007698655}
+--- !u!1 &1364375191 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2826749924059786543, guid: d7bc7bc3054e4ff4f829471605d711ad, type: 3}
+  m_PrefabInstance: {fileID: 1542262806}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1416558019
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -695,6 +710,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1088884184293220854, guid: d7bc7bc3054e4ff4f829471605d711ad, type: 3}
+      propertyPath: pistol
+      value: 
+      objectReference: {fileID: 17971454}
+    - target: {fileID: 1088884184293220854, guid: d7bc7bc3054e4ff4f829471605d711ad, type: 3}
+      propertyPath: rocket
+      value: 
+      objectReference: {fileID: 1364375191}
+    - target: {fileID: 1088884184293220854, guid: d7bc7bc3054e4ff4f829471605d711ad, type: 3}
+      propertyPath: laserFx
+      value: 
+      objectReference: {fileID: 6947457319326797364, guid: 96a53ea6790a4ac4bb4f91152816ff95, type: 3}
+    - target: {fileID: 1088884184293220854, guid: d7bc7bc3054e4ff4f829471605d711ad, type: 3}
+      propertyPath: bulletFx
+      value: 
+      objectReference: {fileID: 1585730916716758511, guid: 9321bc145b28c1e46ba4a1d023db378c, type: 3}
+    - target: {fileID: 1088884184293220854, guid: d7bc7bc3054e4ff4f829471605d711ad, type: 3}
+      propertyPath: plasmaGun
+      value: 
+      objectReference: {fileID: 257126561}
+    - target: {fileID: 1088884184293220854, guid: d7bc7bc3054e4ff4f829471605d711ad, type: 3}
+      propertyPath: fireballFx
+      value: 
+      objectReference: {fileID: 1239156983776194, guid: 3dd065ece245c1f47a2b12600feb4813, type: 3}
+    - target: {fileID: 7002444854643246606, guid: d7bc7bc3054e4ff4f829471605d711ad, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7524987340406703824, guid: d7bc7bc3054e4ff4f829471605d711ad, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8043244129303866378, guid: d7bc7bc3054e4ff4f829471605d711ad, type: 3}
       propertyPath: m_Name
       value: Player
