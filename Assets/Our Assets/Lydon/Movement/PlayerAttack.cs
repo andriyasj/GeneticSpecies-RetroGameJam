@@ -17,10 +17,12 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float fireRate = 0.3f;
 
     private GameObject bulletPrefab;
+    private bool usingPlasma;
 
     private void Start()
     {
         bulletPrefab = bulletFx;
+        usingPlasma = false;
     }
 
     public void Attack()
@@ -43,6 +45,7 @@ public class PlayerAttack : MonoBehaviour
                 plasmaGun.SetActive(true);
                 rocket.SetActive(false);
                 
+                usingPlasma = true;
                 bulletPrefab = laserFx;
                 break;
             case 2:
@@ -52,6 +55,7 @@ public class PlayerAttack : MonoBehaviour
                 plasmaGun.SetActive(false);
                 rocket.SetActive(true);
 
+                usingPlasma = false;
                 bulletPrefab = fireballFx;
                 break;
             default:
@@ -70,5 +74,18 @@ public class PlayerAttack : MonoBehaviour
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         StatManager.instance.Ammo--;
+
+        if (usingPlasma)
+        {
+            Ray ray = new Ray(firePoint.transform.position, firePoint.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, StatManager.instance.interactRange))
+            {
+                if (hitInfo.transform.gameObject.tag == "Enemy")
+                {
+                    EnemyAI enemy = hitInfo.transform.GetComponent<EnemyAI>();
+                    enemy.TakeDamage(10);
+                }
+            }
+        }
     }
 }
