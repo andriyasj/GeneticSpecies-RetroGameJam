@@ -15,6 +15,8 @@ public class PlayerAttack : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private Transform firePoint;
     [SerializeField] private float fireRate = 0.3f;
+    
+
 
     private GameObject bulletPrefab;
     private bool usingPlasma;
@@ -44,7 +46,7 @@ public class PlayerAttack : MonoBehaviour
                 pistol.SetActive(false);
                 plasmaGun.SetActive(true);
                 rocket.SetActive(false);
-                
+                AudioManager.Instance?.PlaySwappingSFX();
                 usingPlasma = true;
                 bulletPrefab = laserFx;
                 break;
@@ -54,7 +56,7 @@ public class PlayerAttack : MonoBehaviour
                 pistol.SetActive(false);
                 plasmaGun.SetActive(false);
                 rocket.SetActive(true);
-
+                AudioManager.Instance?.PlaySwappingSFX();
                 usingPlasma = false;
                 bulletPrefab = fireballFx;
                 break;
@@ -87,5 +89,7 @@ public class PlayerAttack : MonoBehaviour
                 }
             }
         }
+        
+        
     }
 }

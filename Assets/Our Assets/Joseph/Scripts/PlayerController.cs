@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     private float nextFireTime = 0f;
     private float currentYRotation = 0f; // Track horizontal rotation angle
 
+    [Header("SFX Clips")]
+    [SerializeField] private AudioClip playerShoot;
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -94,6 +96,8 @@ public class PlayerController : MonoBehaviour
             Debug.LogWarning("Bullet prefab or fire point not assigned!");
             return;
         }
+        
+        AudioManager.Instance?.PlayGunShoot();
 
         // Instantiate bullet at fire point
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
@@ -111,6 +115,8 @@ public class PlayerController : MonoBehaviour
         // Destroy bullet after 5 seconds to prevent buildup
         Destroy(bullet, 5f);
     }
+
+    
 
     // Optional: Draw aiming direction in Scene view
     private void OnDrawGizmos()
