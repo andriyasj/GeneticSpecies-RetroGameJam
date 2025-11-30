@@ -6,9 +6,7 @@ public interface ITakeover
     enum enemyType
     {
         Enemy1,
-        Enemy2,
-        Enemy3,
-        Enemy4
+        Enemy2
     }
 
     enemyType Takeover();
@@ -28,9 +26,20 @@ public class PlayerInteract : MonoBehaviour
             {
                 ITakeover.enemyType type = takeoverObj.Takeover();
                 
-                // TODO WRITE SWITCH STATEMENT BASED ON TYPE OF TAKEOVER
-                
-                Destroy(hitInfo.collider.gameObject);
+                switch (type)
+                {
+                    case ITakeover.enemyType.Enemy1:
+                        Debug.Log("Took over Enemy 1! Applying stats...");
+                        StatManager.instance.health = 40;
+                        break;
+                    case ITakeover.enemyType.Enemy2:
+                        Debug.Log("Took over Enemy 2! Applying stats...");
+                        StatManager.instance.health = 40;
+                        break;
+                    default:
+                        Debug.LogWarning("Unknown enemy type taken over.");
+                        break;
+                }
             }
         }
     }

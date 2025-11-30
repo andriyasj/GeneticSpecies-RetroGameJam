@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour, ITakeover
 {
     [Header("References")]
     [SerializeField] private Transform player;
@@ -11,6 +11,9 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject explosionPrefab;
 
+    [Header("Enemy Type")]
+    [SerializeField] private ITakeover.enemyType enemyType;
+    
     [Header("Combat Settings")]
     [SerializeField] private float shootingRange = 10f;
     [SerializeField] private float fireRate = 1f;
@@ -74,6 +77,29 @@ public class EnemyAI : MonoBehaviour
         raycastOrigin = Vector3.up;
     }
 
+    public ITakeover.enemyType Takeover()
+    {
+        if (player != null)
+        {
+            Vector3 oldPlayerPos = player.position;
+
+            CharacterController cc = player.GetComponent<CharacterController>();
+            if (cc != null) cc.enabled = false;
+
+            player.position = transform.position;
+            player.rotation = transform.rotation;
+
+            if (cc != null) cc.enabled = true;
+
+            if (explosionPrefab != null)
+            {
+                Instantiate(explosionPrefab, oldPlayerPos, Quaternion.identity);
+            }
+        }
+        Die();
+        return enemyType;
+    }
+    
     void Update()
     {
         if (!isAlive || player == null) return;
