@@ -46,6 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraSensitivity: 0.5
   ammo: 20
-  speed: 20
+  speed: 2
   interactRange: 0
   hasKey: 0

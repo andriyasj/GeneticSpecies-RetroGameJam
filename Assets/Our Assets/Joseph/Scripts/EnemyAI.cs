@@ -82,8 +82,6 @@ public class EnemyAI : MonoBehaviour
                 ChasePlayer();
                 if (animator != null)
                 {
-                    animator.SetBool("IsIdle", false);
-                    animator.SetBool("IsChasing", true);
                     animator.SetBool("IsShooting", false);
                 }
                 break;
@@ -92,8 +90,6 @@ public class EnemyAI : MonoBehaviour
                 ShootAtPlayer();
                 if (animator != null)
                 {
-                    animator.SetBool("IsIdle", false);
-                    animator.SetBool("IsChasing", false);
                     animator.SetBool("IsShooting", true);
                 }
                 break;
@@ -167,26 +163,19 @@ public class EnemyAI : MonoBehaviour
 
     private void Shoot()
     {
-        // Trigger shoot animation
-        if (animator != null)
-        {
-            animator.SetTrigger("Shoot");
-        }
-
         // Spawn bullet projectile
         if (bulletPrefab != null && firePoint != null)
         {
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
             // Optional: Add velocity to bullet if it has rigidbody
-            Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-            if (bulletRb != null)
-            {
-                Vector3 shootDirection = (player.position - firePoint.position).normalized;
-                bulletRb.linearVelocity = shootDirection * 20f; // Adjust bullet speed
-            }
+            //Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+            //if (bulletRb != null)
+            //{
+            //    Vector3 shootDirection = (player.position - firePoint.position).normalized;
+            //    bulletRb.linearVelocity = shootDirection * 20f; // Adjust bullet speed
+            //}
         }
-        // Or use raycast for instant hit
         else
         {
             RaycastHit hit;

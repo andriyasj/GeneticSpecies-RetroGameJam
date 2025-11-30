@@ -8,7 +8,6 @@ public class PlayerLook : MonoBehaviour
     public void ProcessLook(Vector2 input)
     {
         float mouseX = input.x;
-        print(mouseX);
         cam.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);        
         transform.Rotate(Vector3.up * (mouseX * StatManager.instance.cameraSensitivity));
 
