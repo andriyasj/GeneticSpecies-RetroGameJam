@@ -148,7 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7900c83a29732b34096956a2849eab06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 5867101838787659391, guid: 29cb6c3d00a608649b411683b6f4e877, type: 3}
+  enemyPrefab: {fileID: 439758283911719150, guid: 16bbcda6e788e9543a36b97910350e42, type: 3}
+  miniBossPrefab: {fileID: 0}
   allSpawnPoints:
   - {fileID: 1061913743}
   - {fileID: 2104147769}
@@ -166,6 +167,10 @@ MonoBehaviour:
   baseEnemyCount: 10
   baseTimeBetweenSpawns: 0.8
   baseTimeToNextWave: 8
+  miniBossWaveInterval: 3
+  miniBossCount: 3
+  miniBossTimeBetweenSpawns: 2
+  miniBossWaveDelay: 15
   enemyCountMultiplier: 1.2
   enemyCountAdditive: 5
   spawnRateIncrease: 1
@@ -175,6 +180,8 @@ MonoBehaviour:
   scaleEnemyStats: 1
   healthScalingPerWave: 1.15
   damageScalingPerWave: 1.1
+  miniBossHealthMultiplier: 3
+  miniBossDamageMultiplier: 1.5
   showDebugLogs: 1
 --- !u!4 &68345619
 Transform:
