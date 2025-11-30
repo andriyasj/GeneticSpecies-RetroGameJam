@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour
 
     private VisualElement healthMask;
     private Label ammoCounter;
+    private Label waveCounter;
+    private Label enemyCounter;
     private Image barImage;
     
     private void Awake()
@@ -28,6 +30,8 @@ public class UIManager : MonoBehaviour
         var root = ui.rootVisualElement;
         healthMask = root.Q<VisualElement>("HealthMask");
         ammoCounter = root.Q<Label>("AmmoCounter");
+        waveCounter = root.Q<Label>("WaveCounter");
+        enemyCounter = root.Q<Label>("EnemyCounter");
 
         healthMask.style.overflow = Overflow.Hidden;
 
@@ -65,5 +69,13 @@ public class UIManager : MonoBehaviour
     public void SetAmmo(int ammo)
     {
         ammoCounter.text = ammo.ToString();
+    }
+    public void SetWaveCount(int wave)
+    {
+        waveCounter.text = wave.ToString();
+    }
+    public void SetEnemyCount(int count)
+    {
+        enemyCounter.text = count.ToString();
     }
 }

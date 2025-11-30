@@ -31,7 +31,7 @@ public class StatManager : MonoBehaviour
     public int speed;
     public float interactRange;
     public bool hasKey;
-    public enum PlayerType
+    public enum WeaponType
     {
         Enemy1,
         Enemy2,
