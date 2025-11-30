@@ -37,11 +37,13 @@ public class PlayerInteract : MonoBehaviour
                     case ITakeover.enemyType.Enemy1:
                         Debug.Log("Took over Enemy 1! Applying stats...");
                         StatManager.instance.health = 40;
+                        StatManager.instance.ammo = 10;
                         playerAttack.ChangeWeapon(1);
                         break;
                     case ITakeover.enemyType.Enemy2:
                         Debug.Log("Took over Enemy 2! Applying stats...");
                         StatManager.instance.health = 60;
+                        StatManager.instance.ammo = 5;
                         playerAttack.ChangeWeapon(2);
                         break;
                     default:
