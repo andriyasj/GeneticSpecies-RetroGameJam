@@ -33,6 +33,8 @@ public class MenuInteraction : MonoBehaviour
         {
              myRenderer = GetComponentInChildren<MeshRenderer>();
         }
+        
+        Cursor.visible = true;
     }
 
     void Update()

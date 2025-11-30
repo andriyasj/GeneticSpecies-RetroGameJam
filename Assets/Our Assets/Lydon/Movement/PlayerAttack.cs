@@ -28,5 +28,21 @@ public class PlayerAttack : MonoBehaviour
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         StatManager.instance.Ammo--;
+<<<<<<< Updated upstream
+=======
+
+        if (usingPlasma)
+        {
+            Ray ray = new Ray(firePoint.transform.position, firePoint.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, StatManager.instance.interactRange))
+            {
+                if (hitInfo.transform.gameObject.CompareTag("Enemy"))
+                {
+                    EnemyAI enemy = hitInfo.transform.GetComponent<EnemyAI>();
+                    enemy.TakeDamage(10);
+                }
+            }
+        }
+>>>>>>> Stashed changes
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private int damage;
+    
+    public GameObject owner;
 
     void Start()
     {
@@ -13,13 +16,13 @@ public class Bullet : MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
-        if (other.tag == "Enemy")
+        if (other.CompareTag("Enemy"))
         {
             print("Enemy Hit");
             EnemyAI enemy = other.GetComponent<EnemyAI>();
             enemy.TakeDamage(damage);
         }
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             print("Player Hit");
             PlayerActions player = other.GetComponent<PlayerActions>();
