@@ -452,11 +452,11 @@ MonoBehaviour:
   sfxSource: {fileID: 0}
   menuMusic: {fileID: 8300000, guid: 85913aa88fe58c243ba91e374be34c67, type: 3}
   gameplayMusic: {fileID: 8300000, guid: 85913aa88fe58c243ba91e374be34c67, type: 3}
-  gunShoot: {fileID: 0}
-  laserShoot: {fileID: 0}
-  rocketShoot: {fileID: 0}
-  rocketExplosion: {fileID: 0}
-  swappingSFX: {fileID: 0}
+  gunShoot: {fileID: 8300000, guid: 5c10977e032d4ca4dbb0420066920cc1, type: 3}
+  laserShoot: {fileID: 8300000, guid: 3e77945a8ccb1824386eef3cf1d29ee2, type: 3}
+  rocketShoot: {fileID: 8300000, guid: 28419782ab5d443499dcb560de26cd78, type: 3}
+  rocketExplosion: {fileID: 8300000, guid: 2feb7737cc7559e47bcbf054f378976f, type: 3}
+  swappingSFX: {fileID: 8300000, guid: 4de323d39fa33b94eb993679fdd4f9d4, type: 3}
   musicVolume: 0.5
   sfxVolume: 0.7
 --- !u!4 &380790601

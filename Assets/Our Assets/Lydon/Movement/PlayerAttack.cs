@@ -76,9 +76,14 @@ public class PlayerAttack : MonoBehaviour
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         StatManager.instance.Ammo--;
+        
+        AudioManager.Instance?.PlayGunShoot();
+
 
         if (usingPlasma)
         {
+            AudioManager.Instance?.PlayLaserShoot();
+
             Ray ray = new Ray(firePoint.transform.position, firePoint.transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hitInfo, StatManager.instance.interactRange))
             {
