@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI_Old : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform player;
