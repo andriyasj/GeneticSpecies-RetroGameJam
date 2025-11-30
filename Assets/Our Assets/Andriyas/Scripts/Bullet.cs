@@ -13,10 +13,11 @@ public class Bullet : MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
-        if (other.name == "Player")
+        if (other.tag == "Enemy")
         {
-            //Player player = other.GetComponent<Player>();
-            //player.TakeDamage(damage);
+            print("test");
+            EnemyAI enemy = other.GetComponent<EnemyAI>();
+            enemy.TakeDamage(damage);
         }
     }
 
