@@ -1504,8 +1504,9 @@ MonoBehaviour:
   player: {fileID: 0}
   animator: {fileID: 1141465218708437880}
   firePoint: {fileID: 4213660639964224334}
-  bulletPrefab: {fileID: 1239156983776194, guid: 3dd065ece245c1f47a2b12600feb4813, type: 3}
+  bulletPrefab: {fileID: 6947457319326797364, guid: 96a53ea6790a4ac4bb4f91152816ff95, type: 3}
   explosionPrefab: {fileID: 0}
+  enemyType: 0
   shootingRange: 10
   fireRate: 1
   maxHealth: 50

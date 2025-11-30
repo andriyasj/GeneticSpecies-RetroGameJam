@@ -4,10 +4,24 @@ public class PlayerAttack : MonoBehaviour
 {
     private float nextFireTime = 0f;
 
-    [Header("Shooting Settings")]
-    [SerializeField] private GameObject bulletPrefab;
+    [Header("Bullet FX")]
+    [SerializeField] private GameObject bulletFx;
+    [SerializeField] private GameObject laserFx;
+    [SerializeField] private GameObject fireballFx;
+    [Header("Guns")]
+    [SerializeField] private GameObject pistol;
+    [SerializeField] private GameObject plasmaGun;
+    [SerializeField] private GameObject rocket;
+    [Header("Settings")]
     [SerializeField] private Transform firePoint;
     [SerializeField] private float fireRate = 0.3f;
+
+    private GameObject bulletPrefab;
+
+    private void Start()
+    {
+        bulletPrefab = bulletFx;
+    }
 
     public void Attack()
     {
@@ -15,6 +29,34 @@ public class PlayerAttack : MonoBehaviour
         {
             Shoot();
             nextFireTime = Time.time + fireRate;
+        }
+    }
+
+    public void ChangeWeapon(int weaponId)
+    {
+        switch (weaponId)
+        {
+            case 1:
+                Debug.Log("Switched to Plasma.");
+
+                pistol.SetActive(false);
+                plasmaGun.SetActive(true);
+                rocket.SetActive(false);
+                
+                bulletPrefab = laserFx;
+                break;
+            case 2:
+                Debug.Log("Switched to Rocket.");
+
+                pistol.SetActive(false);
+                plasmaGun.SetActive(false);
+                rocket.SetActive(true);
+
+                bulletPrefab = fireballFx;
+                break;
+            default:
+                Debug.LogWarning("Unknown weapon ID!");
+                break;
         }
     }
 

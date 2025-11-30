@@ -14,8 +14,14 @@ public interface ITakeover
 
 public class PlayerInteract : MonoBehaviour
 {
+    public PlayerAttack playerAttack;
     public Camera playerCamera;
     //private bool _canInteract = false;
+
+    private void Start()
+    {
+        playerAttack = GetComponent<PlayerAttack>();
+    }
 
     public void AttemptTakeover()
     {
@@ -31,10 +37,12 @@ public class PlayerInteract : MonoBehaviour
                     case ITakeover.enemyType.Enemy1:
                         Debug.Log("Took over Enemy 1! Applying stats...");
                         StatManager.instance.health = 40;
+                        playerAttack.ChangeWeapon(1);
                         break;
                     case ITakeover.enemyType.Enemy2:
                         Debug.Log("Took over Enemy 2! Applying stats...");
-                        StatManager.instance.health = 40;
+                        StatManager.instance.health = 60;
+                        playerAttack.ChangeWeapon(2);
                         break;
                     default:
                         Debug.LogWarning("Unknown enemy type taken over.");
