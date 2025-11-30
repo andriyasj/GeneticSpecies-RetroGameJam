@@ -419,6 +419,61 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.0000072, y: 2.0001454, z: 2.015399}
   m_Center: {x: 0.000003026798, y: 0.00009715557, z: -0.007698953}
+--- !u!1 &380790599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 380790601}
+  - component: {fileID: 380790600}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &380790600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380790599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 885beb21fbb452e428b4a6fbec562386, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicSource: {fileID: 0}
+  sfxSource: {fileID: 0}
+  menuMusic: {fileID: 8300000, guid: 85913aa88fe58c243ba91e374be34c67, type: 3}
+  gameplayMusic: {fileID: 8300000, guid: 85913aa88fe58c243ba91e374be34c67, type: 3}
+  gunShoot: {fileID: 0}
+  laserShoot: {fileID: 0}
+  rocketShoot: {fileID: 0}
+  rocketExplosion: {fileID: 0}
+  swappingSFX: {fileID: 0}
+  musicVolume: 0.5
+  sfxVolume: 0.7
+--- !u!4 &380790601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380790599}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.7160296, y: 2.7730653, z: -3.3689468}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &495757693 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4689154399106518738, guid: 465b97aa2195a99479afa129f0163b30, type: 3}
@@ -1106,3 +1161,4 @@ SceneRoots:
   - {fileID: 68345619}
   - {fileID: 126920317}
   - {fileID: 332877761}
+  - {fileID: 380790601}
