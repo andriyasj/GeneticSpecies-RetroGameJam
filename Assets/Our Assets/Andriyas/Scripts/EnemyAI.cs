@@ -220,29 +220,12 @@ public class EnemyAI : MonoBehaviour, ITakeover
         if (bulletPrefab == null || firePoint == null) return;
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        switch (enemyType)
+        
+        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+        if (bulletRb != null)
         {
-            case ITakeover.enemyType.Enemy1:
-                Ray ray = new Ray(firePoint.transform.position, firePoint.transform.forward);
-                if (Physics.Raycast(ray, out RaycastHit hitInfo, StatManager.instance.interactRange))
-                {
-                    if (hitInfo.transform.gameObject.tag == "Player")
-                    {
-                        PlayerActions player = hitInfo.transform.GetComponent<PlayerActions>();
-                        player.TakeDamage(10);
-                    }
-                }
-                break;
-            case ITakeover.enemyType.Enemy2:
-                Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-                if (bulletRb != null)
-                {
-                    cachedDirection = (player.position - firePoint.position).normalized;
-                    bulletRb.linearVelocity = cachedDirection * 20f;
-                }
-                break;
-            default:
-                break;
+            cachedDirection = (player.position - firePoint.position).normalized;
+            bulletRb.linearVelocity = cachedDirection * 20f;
         }
     }
 

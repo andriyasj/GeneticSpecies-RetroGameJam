@@ -14,7 +14,6 @@ public class UIManager : MonoBehaviour
     private Label waveCounter;
     private Label enemyCounter;
     private Image barImage;
-    private VisualElement takeoverIndicator;
     
     private void Awake()
     {
@@ -33,7 +32,6 @@ public class UIManager : MonoBehaviour
         ammoCounter = root.Q<Label>("AmmoCounter");
         waveCounter = root.Q<Label>("WaveCounter");
         enemyCounter = root.Q<Label>("EnemyCounter");
-        takeoverIndicator = root.Q<VisualElement>("TakeoverIndicator");
 
         healthMask.style.overflow = Overflow.Hidden;
 
@@ -79,11 +77,5 @@ public class UIManager : MonoBehaviour
     public void SetEnemyCount(int count)
     {
         enemyCounter.text = count.ToString();
-    }
-    public void Indicator(bool takeover)
-    {
-        takeoverIndicator.style.visibility = takeover 
-            ? Visibility.Visible 
-            : Visibility.Hidden;
     }
 }

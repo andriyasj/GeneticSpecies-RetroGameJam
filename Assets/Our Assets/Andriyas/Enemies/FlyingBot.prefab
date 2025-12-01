@@ -88,7 +88,7 @@ MonoBehaviour:
   enemyType: 1
   shootingRange: 10
   fireRate: 1
-  maxHealth: 70
+  maxHealth: 50
   damage: 10
   chaseSpeed: 5
   destinationUpdateInterval: 0.5
