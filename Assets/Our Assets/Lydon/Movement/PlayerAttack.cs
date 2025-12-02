@@ -83,7 +83,7 @@ public class PlayerAttack : MonoBehaviour
                 if (hitInfo.transform.gameObject.tag == "Enemy")
                 {
                     EnemyAI enemy = hitInfo.transform.GetComponent<EnemyAI>();
-                    enemy.TakeDamage(10);
+                    enemy.TakeDamage(15);
                 }
             }
         }
